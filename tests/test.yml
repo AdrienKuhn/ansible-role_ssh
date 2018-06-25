@@ -1,0 +1,10 @@
+---
+- hosts: all
+  vars:
+    ssh_admin_users:
+      - {
+        name: admin-user,
+        pub_key: ssh-ed25519 dummy_key user@domain.tld
+      }
+  roles:
+    - ansible-role_ssh
