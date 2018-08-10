@@ -25,30 +25,3 @@
     validate='/usr/sbin/sshd -T -f %s'
   tags: ssh
   notify: Restart SSH server
-
-- name: Generate admin users
-  become: yes
-  user:
-    name={{ item.name }}
-    shell=/bin/bash
-    comment="Admin user"
-    generate_ssh_key=yes
-  with_items: "{{ ssh_admin_users | default([]) }}"
-  tags: ssh
-
-- name: Ensure admin users have root access
-  become: yes
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%{{ item.name }}' line='%{{ item.name }} ALL=(ALL) NOPASSWD: ALL'"
-  with_items: "{{ ssh_admin_users | default([]) }}"
-  tags: ssh
-
-- name: Ensure Admins have access to the server
-  become: yes
-  copy:
-    content={{ item.pub_key }}
-    dest=/home/{{ item.name }}/.ssh/authorized_keys
-    owner={{ item.name }}
-    group={{ item.name }}
-    mode=0644
-  with_items: "{{ ssh_admin_users | default([]) }}"
-  tags: ssh

@@ -42,14 +42,6 @@ ssh_tcpkeepalive: yes
 ssh_acceptenv: "LANG LC_*"
 ssh_subsystem: "sftp /usr/lib/openssh/sftp-server -f AUTHPRIV -l INFO"
 ssh_usepam: yes
-
-# These users will have a user account with sudo access on all servers 
-# if defined in all.yml group_vars
-ssh_admin_users:
-  - {
-    name: admin-user,
-    pub_key: ssh-ed25519 dummy_key user@domain.tld # Authorized public key for admin-user
-  }
 ```
 
 Dependencies
